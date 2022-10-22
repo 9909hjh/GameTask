@@ -14,4 +14,9 @@ class UETASK_API UItem : public UObject
 {
 	GENERATED_BODY()
 	
+public:
+
+	UItem();
+
+	UPRO
 };
