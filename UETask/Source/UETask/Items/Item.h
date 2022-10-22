@@ -18,5 +18,4 @@ public:
 
 	UItem();
 
-	UPRO
 };
