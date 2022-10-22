@@ -11,7 +11,6 @@ class AUETaskCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
 
@@ -21,41 +20,47 @@ class AUETaskCharacter : public ACharacter
 public:
 	AUETaskCharacter();
 
-	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseTurnRate;
 
-	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
+	//sprint
+	bool isSprinting;
+	//Sprint ----------------
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | Sprint")
+		float MAXSpeed;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | Sprint")
+		float DefaultSpeed;
+
+	//Heal and Damage----------
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability | Health")
+		float playerHealth;
+
 protected:
 
-	/** Resets HMD orientation in VR. */
+	//Sprint ----------------
+	void Sprint();
+	void StopSprinting();
+	//Sprint ----------------
+	virtual void BeginPlay() override;
+
+	//Heal and Damage----------
+	void gettingHeal();
+	void gettingDamage();
+	//Heal and Damage----------
+	void TakeDamage(float _DamageAmount);
+	void Heal(float _HealAmount);
+
 	void OnResetVR();
-
-	/** Called for forwards/backward input */
 	void MoveForward(float Value);
-
-	/** Called for side to side input */
 	void MoveRight(float Value);
 
-	/** 
-	 * Called via input to turn at a given rate. 
-	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
-	 */
 	void TurnAtRate(float Rate);
-
-	/**
-	 * Called via input to turn look up/down at a given rate. 
-	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
-	 */
 	void LookUpAtRate(float Rate);
 
-	/** Handler for when a touch input begins. */
 	void TouchStarted(ETouchIndex::Type FingerIndex, FVector Location);
-
-	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
 protected:
@@ -64,9 +69,9 @@ protected:
 	// End of APawn interface
 
 public:
-	/** Returns CameraBoom subobject **/
+
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-	/** Returns FollowCamera subobject **/
+
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 };
 

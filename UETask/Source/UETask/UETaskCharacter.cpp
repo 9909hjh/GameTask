@@ -12,7 +12,7 @@
 //////////////////////////////////////////////////////////////////////////
 // AUETaskCharacter
 
-AUETaskCharacter::AUETaskCharacter()
+AUETaskCharacter::AUETaskCharacter() : DefaultSpeed(600), playerHealth(1.00f)
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -21,30 +21,38 @@ AUETaskCharacter::AUETaskCharacter()
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
 
-	// Don't rotate when the controller rotates. Let that just affect the camera.
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 
 	// Configure character movement
-	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
-	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
+	GetCharacterMovement()->bOrientRotationToMovement = true; 
+	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); 
 	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
+	
 
-	// Create a camera boom (pulls in towards the player if there is a collision)
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 300.0f; // The camera follows at this distance behind the character	
-	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
+	CameraBoom->TargetArmLength = 300.0f; 
+	CameraBoom->bUsePawnControlRotation = true;
 
 	// Create a follow camera
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
-	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
-	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); 
+	FollowCamera->bUsePawnControlRotation = false; 
+	
+	//Sprint ----------------
+	isSprinting = false;
 
-	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
-	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+}
+
+//Sprint ----------------
+void AUETaskCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	GetCharacterMovement()->MaxWalkSpeed = DefaultSpeed;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -57,12 +65,19 @@ void AUETaskCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerIn
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
+	//Sprint ----------------
+	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AUETaskCharacter::Sprint);
+	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AUETaskCharacter::StopSprinting);
+
+	//Heal and Damage----------
+	PlayerInputComponent->BindAction("Heal", IE_Pressed, this, &AUETaskCharacter::gettingHeal);
+	PlayerInputComponent->BindAction("Damage", IE_Pressed, this, &AUETaskCharacter::gettingDamage);
+
+
 	PlayerInputComponent->BindAxis("MoveForward", this, &AUETaskCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AUETaskCharacter::MoveRight);
 
-	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
-	// "turn" handles devices that provide an absolute delta, such as a mouse.
-	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
+
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("TurnRate", this, &AUETaskCharacter::TurnAtRate);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
@@ -74,17 +89,13 @@ void AUETaskCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerIn
 
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AUETaskCharacter::OnResetVR);
+
+
 }
 
 
 void AUETaskCharacter::OnResetVR()
 {
-	// If UETask is added to a project via 'Add Feature' in the Unreal Editor the dependency on HeadMountedDisplay in UETask.Build.cs is not automatically propagated
-	// and a linker error will result.
-	// You will need to either:
-	//		Add "HeadMountedDisplay" to [YourProject].Build.cs PublicDependencyModuleNames in order to build successfully (appropriate if supporting VR).
-	// or:
-	//		Comment or delete the call to ResetOrientationAndPosition below (appropriate if not supporting VR)
 	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
 }
 
@@ -138,3 +149,53 @@ void AUETaskCharacter::MoveRight(float Value)
 		AddMovementInput(Direction, Value);
 	}
 }
+
+
+//Sprint ----------------
+void AUETaskCharacter::Sprint()
+{
+	UE_LOG(LogTemp, Warning, TEXT("We are now sprint"));
+	//isSprinting = true;
+	GetCharacterMovement()->MaxWalkSpeed = MAXSpeed;
+}
+
+void AUETaskCharacter::StopSprinting()
+{
+	UE_LOG(LogTemp, Warning, TEXT("We have stopped sprint"));
+	//isSprinting = false;
+	GetCharacterMovement()->MaxWalkSpeed = DefaultSpeed;
+}
+
+void AUETaskCharacter::gettingHeal()
+{
+	Heal(0.02f);
+}
+
+//Heal and Damage----------
+void AUETaskCharacter::gettingDamage()
+{
+	TakeDamage(0.02f);
+}
+
+void AUETaskCharacter::TakeDamage(float _DamageAmount)
+{
+	UE_LOG(LogTemp, Warning, TEXT("We are damage for %f prints."), _DamageAmount);
+	playerHealth -= _DamageAmount;
+
+	if (playerHealth < 0.0f)
+	{
+		playerHealth = 0.f;
+	}
+}
+
+void AUETaskCharacter::Heal(float _HealAmount)
+{
+	UE_LOG(LogTemp, Warning, TEXT("We are damage for %f prints."), _HealAmount);
+	playerHealth += _HealAmount;
+
+	if (playerHealth > 1.0f)
+	{
+		playerHealth = 1.0f;
+	}
+}
+
