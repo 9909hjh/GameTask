@@ -22,6 +22,9 @@ class AUETaskCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Items", meta = (AllowPrivateAccess = "true"))
 		class UInventoryComponent* Inventory;
 
+private:
+	bool canSprint = false;
+
 public:
 	AUETaskCharacter();
 
@@ -31,13 +34,32 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
+	virtual void Tick(float DeltaSeconds) override;
+
 	//sprint
 	bool isSprinting;
+
 	//Sprint ----------------
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | Sprint")
 		float MAXSpeed;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | Sprint")
 		float DefaultSpeed;
+
+	//Stamina-----------
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | Sprint | Stamina")
+		float PlayerStamina;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | Sprint | Stamina")
+		float RecoveryStamina;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | Sprint | Stamina")
+		float ConsumeStamina;
+
+	//Stamina-----------
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | Sprint | Stamina")
+		float MaxStamina;
+	UPROPERTY(VisibleAnywhere, Category = "Ability | Sprint | Stamina")
+		float MinStamina;
+
+
 
 	//Heal and Damage----------
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | Health")
@@ -47,7 +69,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability | Health")
 		float playerHealth;
 
-	
+
 
 	//funtion--------------------------
 	UFUNCTION(BlueprintCallable, Category = "Items")
@@ -60,6 +82,9 @@ protected:
 	void StopSprinting();
 	//Sprint ----------------
 	virtual void BeginPlay() override;
+
+	//Stamina-----------
+	void TakeStamina(float _StaminaAmount);
 
 	//Heal and Damage----------
 	void gettingHeal();
@@ -88,5 +113,7 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+
 };
 

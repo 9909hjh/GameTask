@@ -14,7 +14,7 @@
 //////////////////////////////////////////////////////////////////////////
 // AUETaskCharacter
 
-AUETaskCharacter::AUETaskCharacter() : DefaultSpeed(600), MaxHealth(0.f), MinHealth(0.f), playerHealth(0.f)
+AUETaskCharacter::AUETaskCharacter() : DefaultSpeed(600), MaxHealth(0.f), MinHealth(0.f), playerHealth(0.f), MinStamina(0.0f)
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -49,6 +49,28 @@ AUETaskCharacter::AUETaskCharacter() : DefaultSpeed(600), MaxHealth(0.f), MinHea
 
 	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
 	Inventory->Capacity = 20;
+
+}
+
+void AUETaskCharacter::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	if (canSprint)
+	{
+		PlayerStamina = FMath::FInterpConstantTo(PlayerStamina, MinStamina, DeltaSeconds, ConsumeStamina);
+		if (PlayerStamina == MinStamina)
+		{
+			StopSprinting();
+		}
+	}
+	else
+	{
+		if (PlayerStamina < MaxStamina)
+		{
+			PlayerStamina = FMath::FInterpConstantTo(PlayerStamina, MaxStamina, DeltaSeconds, RecoveryStamina);
+		}
+	}
 
 }
 
@@ -97,6 +119,7 @@ void AUETaskCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerIn
 
 
 }
+
 
 
 void AUETaskCharacter::OnResetVR()
@@ -171,14 +194,39 @@ void AUETaskCharacter::Sprint()
 	UE_LOG(LogTemp, Warning, TEXT("We are now sprint"));
 	//isSprinting = true;
 	GetCharacterMovement()->MaxWalkSpeed = MAXSpeed;
+	canSprint = true;
+	//TakeStamina(20.f);
 }
 
 void AUETaskCharacter::StopSprinting()
 {
+	canSprint = false;
 	UE_LOG(LogTemp, Warning, TEXT("We have stopped sprint"));
 	//isSprinting = false;
 	GetCharacterMovement()->MaxWalkSpeed = DefaultSpeed;
+
+	/*PlayerStamina += RecoveryStamina;
+
+	if (PlayerStamina > MaxStamina)
+	{
+		PlayerStamina = MaxStamina;
+	}*/
 }
+
+void AUETaskCharacter::TakeStamina(float _StaminaAmount)
+{
+	if (canSprint) 
+	{
+		PlayerStamina -= _StaminaAmount;
+		if (PlayerStamina <= MinStamina)
+		{
+			PlayerStamina = MinStamina;
+			canSprint = false;
+			StopSprinting();
+		}
+	}
+}
+
 
 void AUETaskCharacter::gettingHeal()
 {
