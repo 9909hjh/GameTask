@@ -188,6 +188,7 @@ void AUETaskCharacter::UseItem(UItem* Item)
 	}
 }
 
+
 //Sprint ----------------
 void AUETaskCharacter::Sprint()
 {
@@ -237,3 +238,17 @@ void AUETaskCharacter::Heal(float _HealAmount)
 	}
 }
 
+int32 AUETaskCharacter::Add_EXP(int32 _expfactor)
+{
+	EXP += _expfactor;
+	if (EXP >= EXP_Needed)
+	{
+		Level++;
+		EXP -= EXP_Needed;
+		EXP_Needed *= EXP_Mult;
+		EXP_Needed = FMath::Clamp(EXP_Needed, 0, 100);
+
+		return Level;
+	}
+	return int32();
+}

@@ -64,12 +64,23 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability | Health")
 		float playerHealth;
 
-
-
-
 	//funtion--------------------------
 	UFUNCTION(BlueprintCallable, Category = "Items")
 		void UseItem(class UItem* Item);
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | LevelUP")
+		int32 Level;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | LevelUP")
+		int32 EXP;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | LevelUP")
+		int32 EXP_Needed;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | LevelUP")
+		float EXP_Mult;
+
+	UFUNCTION(BlueprintCallable, Category = "Ability | LevelUP")
+		int32 Add_EXP(int32 _expfactor);
+	
 
 protected:
 
