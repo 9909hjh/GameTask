@@ -45,7 +45,7 @@ public:
 	UPROPERTY()
 		class UInventoryComponent* OwningInventory;
 
-	virtual void Use(class AUETaskCharacter* Character) PURE_VIRTUAL(UItem, ); //순수 가상함수 상속을 할 때 사용
+	virtual void Use(class AUETaskCharacter* Character); //PURE_VIRTUAL(UItem, ); //순수 가상함수 상속을 할 때 사용
 
 	//------------------------------------------------------------------
 
