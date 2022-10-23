@@ -8,6 +8,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Item.h"
+#include "InventoryComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AUETaskCharacter
@@ -43,7 +45,10 @@ AUETaskCharacter::AUETaskCharacter() : DefaultSpeed(600), playerHealth(1.00f)
 	FollowCamera->bUsePawnControlRotation = false; 
 	
 	//Sprint ----------------
-	isSprinting = false;
+	//isSprinting = false;
+
+	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
+	Inventory->Capacity = 20;
 
 }
 
@@ -150,6 +155,15 @@ void AUETaskCharacter::MoveRight(float Value)
 	}
 }
 
+//funtion--------------------------
+void AUETaskCharacter::UseItem(UItem* Item)
+{
+	if (Item)
+	{
+		Item->Use(this);
+		Item->OnUse(this); //BP event
+	}
+}
 
 //Sprint ----------------
 void AUETaskCharacter::Sprint()

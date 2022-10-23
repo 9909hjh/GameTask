@@ -17,6 +17,11 @@ class AUETaskCharacter : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
+
+	//Inventory
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Items", meta = (AllowPrivateAccess = "true"))
+		class UInventoryComponent* Inventory;
+
 public:
 	AUETaskCharacter();
 
@@ -37,6 +42,10 @@ public:
 	//Heal and Damage----------
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability | Health")
 		float playerHealth;
+
+	//funtion--------------------------
+	UFUNCTION(BlueprintCallable, Category = "Items")
+		void UseItem(class UItem* Item);
 
 protected:
 
