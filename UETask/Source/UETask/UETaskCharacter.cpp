@@ -182,7 +182,7 @@ void AUETaskCharacter::StopSprinting()
 
 void AUETaskCharacter::gettingHeal()
 {
-	Heal(0.02f);
+	Heal(20.f);
 }
 
 //Heal and Damage----------
