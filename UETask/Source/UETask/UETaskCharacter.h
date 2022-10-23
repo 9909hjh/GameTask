@@ -42,6 +42,8 @@ public:
 	//Heal and Damage----------
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability | Health")
 		float playerHealth;
+	
+
 
 	//funtion--------------------------
 	UFUNCTION(BlueprintCallable, Category = "Items")
