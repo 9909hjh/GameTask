@@ -14,7 +14,7 @@
 //////////////////////////////////////////////////////////////////////////
 // AUETaskCharacter
 
-AUETaskCharacter::AUETaskCharacter() : DefaultSpeed(600), playerHealth(1000.f)
+AUETaskCharacter::AUETaskCharacter() : DefaultSpeed(600), MaxHealth(0.f), MinHealth(0.f), playerHealth(0.f)
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -196,9 +196,9 @@ void AUETaskCharacter::TakeDamage(float _DamageAmount)
 	UE_LOG(LogTemp, Warning, TEXT("We are damage for %f prints."), _DamageAmount);
 	playerHealth -= _DamageAmount;
 
-	if (playerHealth < 0.0f)
+	if (playerHealth < MinHealth)
 	{
-		playerHealth = 0.f;
+		playerHealth = MinHealth;
 	}
 }
 
@@ -207,9 +207,9 @@ void AUETaskCharacter::Heal(float _HealAmount)
 	UE_LOG(LogTemp, Warning, TEXT("We are damage for %f prints."), _HealAmount);
 	playerHealth += _HealAmount;
 
-	if (playerHealth > 1.0f)
+	if (playerHealth > MaxHealth)
 	{
-		playerHealth = 1.0f;
+		playerHealth = MaxHealth;
 	}
 }
 

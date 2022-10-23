@@ -40,8 +40,14 @@ public:
 		float DefaultSpeed;
 
 	//Heal and Damage----------
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | Health")
+		float MaxHealth;
+	UPROPERTY(VisibleAnywhere, Category = "Ability | Health")
+		float MinHealth;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability | Health")
 		float playerHealth;
+
+	
 
 	//funtion--------------------------
 	UFUNCTION(BlueprintCallable, Category = "Items")
