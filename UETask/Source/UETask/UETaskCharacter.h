@@ -19,7 +19,7 @@ class AUETaskCharacter : public ACharacter
 	class UCameraComponent* FollowCamera;
 
 	//Inventory
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Items", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Items", meta = (AllowPrivateAccess = "true"))
 		class UInventoryComponent* Inventory;
 
 public:

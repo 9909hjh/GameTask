@@ -15,8 +15,8 @@ bool UInventoryComponent::AddItem(UItem* Item)
 	Item->OwningInventory = this;
 	Item->World = GetWorld();
 	Items.Add(Item);
-
 	OnInventoryUpdated.Broadcast();
+
 	return true;
 }
 
