@@ -14,7 +14,7 @@
 //////////////////////////////////////////////////////////////////////////
 // AUETaskCharacter
 
-AUETaskCharacter::AUETaskCharacter() : DefaultSpeed(600), playerHealth(1.00f)
+AUETaskCharacter::AUETaskCharacter() : DefaultSpeed(600), playerHealth(1000.f)
 {
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -188,7 +188,7 @@ void AUETaskCharacter::gettingHeal()
 //Heal and Damage----------
 void AUETaskCharacter::gettingDamage()
 {
-	TakeDamage(0.02f);
+	TakeDamage(20.f);
 }
 
 void AUETaskCharacter::TakeDamage(float _DamageAmount)
