@@ -19,7 +19,7 @@ class AUETaskCharacter : public ACharacter
 	class UCameraComponent* FollowCamera;
 
 	//Inventory
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Items", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Items", meta = (AllowPrivateAccess = "true"))
 		class UInventoryComponent* Inventory;
 
 private:
@@ -35,9 +35,6 @@ public:
 	float BaseLookUpRate;
 
 	virtual void Tick(float DeltaSeconds) override;
-
-	//sprint
-	bool isSprinting;
 
 	//Sprint ----------------
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | Sprint")
@@ -59,8 +56,6 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Ability | Sprint | Stamina")
 		float MinStamina;
 
-
-
 	//Heal and Damage----------
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | Health")
 		float MaxHealth;
@@ -68,6 +63,7 @@ public:
 		float MinHealth;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability | Health")
 		float playerHealth;
+
 
 
 
@@ -82,9 +78,6 @@ protected:
 	void StopSprinting();
 	//Sprint ----------------
 	virtual void BeginPlay() override;
-
-	//Stamina-----------
-	void TakeStamina(float _StaminaAmount);
 
 	//Heal and Damage----------
 	void gettingHeal();

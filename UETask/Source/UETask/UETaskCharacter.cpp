@@ -192,39 +192,15 @@ void AUETaskCharacter::UseItem(UItem* Item)
 void AUETaskCharacter::Sprint()
 {
 	UE_LOG(LogTemp, Warning, TEXT("We are now sprint"));
-	//isSprinting = true;
 	GetCharacterMovement()->MaxWalkSpeed = MAXSpeed;
 	canSprint = true;
-	//TakeStamina(20.f);
 }
 
 void AUETaskCharacter::StopSprinting()
 {
 	canSprint = false;
 	UE_LOG(LogTemp, Warning, TEXT("We have stopped sprint"));
-	//isSprinting = false;
 	GetCharacterMovement()->MaxWalkSpeed = DefaultSpeed;
-
-	/*PlayerStamina += RecoveryStamina;
-
-	if (PlayerStamina > MaxStamina)
-	{
-		PlayerStamina = MaxStamina;
-	}*/
-}
-
-void AUETaskCharacter::TakeStamina(float _StaminaAmount)
-{
-	if (canSprint) 
-	{
-		PlayerStamina -= _StaminaAmount;
-		if (PlayerStamina <= MinStamina)
-		{
-			PlayerStamina = MinStamina;
-			canSprint = false;
-			StopSprinting();
-		}
-	}
 }
 
 
