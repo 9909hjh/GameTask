@@ -25,8 +25,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Enemy | Damage")
 		float Damage;
 
-	UPROPERTY(VisibleAnywhere, Category = "Enemy")
-		UStaticMeshComponent* EnemyMesh;
+	UPROPERTY(VisibleAnywhere)
+		UStaticMeshComponent* ItemMesh;
 
 protected:
 	// Called when the game starts or when spawned
