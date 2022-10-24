@@ -68,19 +68,40 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Items")
 		void UseItem(class UItem* Item);
 
+	//ToDie에 관한 이벤트 함수.
+	UFUNCTION(BlueprintImplementableEvent)
+		void ToDie();
+
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | LevelUP")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | Level")
 		int32 Level;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | LevelUP")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | Level")
 		int32 EXP;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | LevelUP")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | Level")
 		int32 EXP_Needed;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | LevelUP")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | Level")
 		float EXP_Mult;
+
+	//레벨업 버프 부분 함수.
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | LevelUP")
+		float MaxHealthPlus;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | LevelUP")
+		float MaxStaminaPlus;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | LevelUP")
+		float RecoveryStaminaPlus;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | LevelUP")
+		float ConsumeStaminaMinus;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | LevelUP")
+		float MAXSpeedPlus;
+
+
 
 	UFUNCTION(BlueprintCallable, Category = "Ability | LevelUP")
 		int32 Add_EXP(int32 _expfactor);
 	
+	
+
+	void LevelupBuff();
 
 protected:
 
@@ -94,8 +115,13 @@ protected:
 	void gettingHeal();
 	void gettingDamage();
 	//Heal and Damage----------
-	void TakeDamage(float _DamageAmount);
+	UFUNCTION(BlueprintCallable, Category = "Damage")
+		void TakeDamage(float _DamageAmount);
+
 	void Heal(float _HealAmount);
+
+
+
 
 	void OnResetVR();
 	void MoveForward(float Value);

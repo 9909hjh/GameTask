@@ -52,6 +52,7 @@ AUETaskCharacter::AUETaskCharacter() : DefaultSpeed(600), MaxHealth(0.f), MinHea
 
 }
 
+//스테미나 관련Tick함수
 void AUETaskCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
@@ -78,7 +79,7 @@ void AUETaskCharacter::Tick(float DeltaSeconds)
 void AUETaskCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
+	// movement에 있던 기본 Speed를 DefualtSpeed로 기획자가 설정한 것으로 적용.
 	GetCharacterMovement()->MaxWalkSpeed = DefaultSpeed;
 }
 
@@ -189,6 +190,8 @@ void AUETaskCharacter::UseItem(UItem* Item)
 }
 
 
+
+
 //Sprint ----------------
 void AUETaskCharacter::Sprint()
 {
@@ -201,21 +204,23 @@ void AUETaskCharacter::StopSprinting()
 {
 	canSprint = false;
 	UE_LOG(LogTemp, Warning, TEXT("We have stopped sprint"));
-	GetCharacterMovement()->MaxWalkSpeed = DefaultSpeed;
+	GetCharacterMovement()->MaxWalkSpeed = DefaultSpeed; // movement에 있던 기본 Speed를 DefualtSpeed로 기획자가 설정한 것으로 적용.
 }
 
-
+//Heal Test : 1번을 누르면 힐이 되는 것을 보여준다.
 void AUETaskCharacter::gettingHeal()
 {
 	Heal(20.f);
 }
 
-//Heal and Damage----------
+//Heal and Damage---------- 
+// Damage Test : 2번을 누르면 Damage가 들어가는 것을 보여준다.
 void AUETaskCharacter::gettingDamage()
 {
 	TakeDamage(20.f);
 }
 
+//데이지를 받는 부분, MinHealth로 기본으로 설정해준 0이 되면 죽게된다.
 void AUETaskCharacter::TakeDamage(float _DamageAmount)
 {
 	UE_LOG(LogTemp, Warning, TEXT("We are damage for %f prints."), _DamageAmount);
@@ -224,9 +229,11 @@ void AUETaskCharacter::TakeDamage(float _DamageAmount)
 	if (playerHealth < MinHealth)
 	{
 		playerHealth = MinHealth;
+		ToDie();
 	}
 }
 
+//체력을 회복하는 부분, 기획자가 설정해준 MaxHealth로 설정해준 것으로 적용
 void AUETaskCharacter::Heal(float _HealAmount)
 {
 	UE_LOG(LogTemp, Warning, TEXT("We are damage for %f prints."), _HealAmount);
@@ -244,11 +251,22 @@ int32 AUETaskCharacter::Add_EXP(int32 _expfactor)
 	if (EXP >= EXP_Needed)
 	{
 		Level++;
+		LevelupBuff();
 		EXP -= EXP_Needed;
 		EXP_Needed *= EXP_Mult;
 		EXP_Needed = FMath::Clamp(EXP_Needed, 0, 100);
-
 		return Level;
 	}
 	return int32();
+}
+
+void AUETaskCharacter::LevelupBuff()
+{
+	MaxHealth += MaxHealthPlus;
+	MaxStamina += MaxStaminaPlus;
+	RecoveryStamina += RecoveryStaminaPlus;
+	ConsumeStamina -= ConsumeStaminaMinus;
+	MAXSpeed += MAXSpeedPlus;
+	playerHealth = MaxHealth; //레벨이 오르면 체력이 차오른다.
+
 }
