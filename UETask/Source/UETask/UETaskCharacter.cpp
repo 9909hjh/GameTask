@@ -224,6 +224,14 @@ void AUETaskCharacter::gettingDamage()
 void AUETaskCharacter::TakeDamage(float _DamageAmount)
 {
 	UE_LOG(LogTemp, Warning, TEXT("We are damage for %f prints."), _DamageAmount);
+
+	_DamageAmount -= DEF;
+
+	if (_DamageAmount < 0)
+	{
+		_DamageAmount = 0;
+	}
+
 	playerHealth -= _DamageAmount;
 
 	if (playerHealth < MinHealth)

@@ -2,15 +2,18 @@
 
 
 #include "Item.h"
+#include "UETaskCharacter.h"
 
 UItem::UItem()
 {
-	Weight = 1.0f;
 	ItemDisplayName = FText::FromString("Item");
 	UseActionText = FText::FromString("Use");
 }
 
 void UItem::Use(AUETaskCharacter* Character)
 {
-
+	if (Character)
+	{
+		Character->DEF += RiseDEF;
+	}
 }

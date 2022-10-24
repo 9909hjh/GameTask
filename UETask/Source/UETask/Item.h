@@ -24,23 +24,25 @@ public:
 	UPROPERTY(Transient)
 		class UWorld* World;
 
+	// 아이템 종류
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
 		FText UseActionText;
-	
+	//아이템 메쉬설정
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
 		class UStaticMesh* PickupMesh;
-
+	//인벤토리에 보이는 아이템 이미지.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
 		class UTexture2D* Thumbanil;
-
+	//아이템 이름
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item")
 		FText ItemDisplayName;
-
+	//아이템 설명
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (MultiLine = true))
 		FText ItemDescription;
 
+	//방어력 증가량.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Item", meta = (ClampMin = 0.0f))
-		float Weight;
+		float RiseDEF;
 
 	UPROPERTY()
 		class UInventoryComponent* OwningInventory;

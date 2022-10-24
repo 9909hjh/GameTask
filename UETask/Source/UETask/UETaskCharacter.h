@@ -19,7 +19,7 @@ class AUETaskCharacter : public ACharacter
 	class UCameraComponent* FollowCamera;
 
 	//Inventory
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Items", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory", meta = (AllowPrivateAccess = "true"))
 		class UInventoryComponent* Inventory;
 
 private:
@@ -64,6 +64,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability | Health")
 		float playerHealth;
 
+	//defensive ºÎºÐ.
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability | Defense")
+		float DEF;
+
 	//funtion--------------------------
 	UFUNCTION(BlueprintCallable, Category = "Items")
 		void UseItem(class UItem* Item);
@@ -94,13 +98,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | LevelUP")
 		float MAXSpeedPlus;
 
-
-
 	UFUNCTION(BlueprintCallable, Category = "Ability | LevelUP")
 		int32 Add_EXP(int32 _expfactor);
 	
-	
-
 	void LevelupBuff();
 
 protected:
