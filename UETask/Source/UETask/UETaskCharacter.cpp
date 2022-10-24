@@ -190,8 +190,6 @@ void AUETaskCharacter::UseItem(UItem* Item)
 }
 
 
-
-
 //Sprint ----------------
 void AUETaskCharacter::Sprint()
 {
@@ -253,6 +251,7 @@ void AUETaskCharacter::Heal(float _HealAmount)
 	}
 }
 
+//레벨관련 함수
 int32 AUETaskCharacter::Add_EXP(int32 _expfactor)
 {
 	EXP += _expfactor;
@@ -276,5 +275,4 @@ void AUETaskCharacter::LevelupBuff()
 	ConsumeStamina -= ConsumeStaminaMinus;
 	MAXSpeed += MAXSpeedPlus;
 	playerHealth = MaxHealth; //레벨이 오르면 체력이 차오른다.
-
 }

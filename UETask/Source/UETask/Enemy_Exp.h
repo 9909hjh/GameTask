@@ -28,9 +28,6 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Enemy")
 		UStaticMeshComponent* EnemyMesh;
 
-	/*UPROPERTY(EditAnywhere, Category = "EXP | Item")
-		UStaticMesh* EXP_ItemMesh;*/
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -39,8 +36,5 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	/*UFUNCTION()
-		void OnHit(AActor* OtherActor);*/
 
 };

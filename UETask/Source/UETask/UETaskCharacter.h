@@ -34,8 +34,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
-	virtual void Tick(float DeltaSeconds) override;
-
 	//Sprint ----------------
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | Sprint")
 		float MAXSpeed;
@@ -85,6 +83,11 @@ public:
 		int32 EXP_Needed;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | Level")
 		float EXP_Mult;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | Level")
+		int32 MaxEXP;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | Level")
+		int32 MinEXP;
+
 
 	//레벨업 버프 부분 함수.
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ability | LevelUP")
@@ -110,6 +113,8 @@ protected:
 	void StopSprinting();
 	//Sprint ----------------
 	virtual void BeginPlay() override;
+
+	virtual void Tick(float DeltaSeconds) override;
 
 	//Heal and Damage----------
 	void gettingHeal();

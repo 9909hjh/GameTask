@@ -51,7 +51,7 @@ public:
 
 	//------------------------------------------------------------------
 
-	UFUNCTION(BlueprintImplementableEvent)  //BP에서만 정의가능
+	UFUNCTION(BlueprintImplementableEvent)  //BP에서만 정의가능 -> WBP에서 override할 것
 		void OnUse(class AUETaskCharacter* Character);
 
 private:

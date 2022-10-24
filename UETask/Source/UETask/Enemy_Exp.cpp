@@ -2,7 +2,6 @@
 
 
 #include "Enemy_Exp.h"
-#include "UETaskCharacter.h"
 
 // Sets default values
 AEnemy_Exp::AEnemy_Exp()
@@ -11,7 +10,6 @@ AEnemy_Exp::AEnemy_Exp()
 	PrimaryActorTick.bCanEverTick = true;
 	EnemyMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("My EnemyMesh"));
 }
-
 
 
 // Called when the game starts or when spawned
@@ -27,17 +25,3 @@ void AEnemy_Exp::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-
-//ÄÉ½ºÆÃ
-//void AEnemy_Exp::OnHit(AActor* OtherActor)
-//{
-//	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Your Message"));
-//	AUETaskCharacter* Charater = Cast<AUETaskCharacter>(OtherActor);
-//	if (Charater != nullptr)
-//	{
-//		
-//		Charater->Add_EXP(FMath::RandRange(MinEXP, MaxEXP));
-//		Destroy();
-//	}
-//}
-
