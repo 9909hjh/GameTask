@@ -22,7 +22,7 @@ public:
 	bool RemoveItem(class UItem* Item);
 
 	/**기본 아이템 설정*/ 
-	UPROPERTY(EditDefaultsOnly, Instanced)
+	UPROPERTY(EditAnywhere, Instanced)
 		TArray<class UItem*> DefaultItem;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Inventory")
@@ -33,7 +33,7 @@ public:
 		FOnInventoryUpdated OnInventoryUpdated;
 
 	//아이템을 추가 or 삭제 부분에 사용
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Items")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Items")
 		TArray<class UItem*> Items;
 
 protected:
