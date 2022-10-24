@@ -25,8 +25,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Enemy | Damage")
 		float Damage;
 
-	UPROPERTY(VisibleAnywhere)
-		UStaticMeshComponent* ItemMesh;
+	UPROPERTY(VisibleAnywhere, Category = "Enemy")
+		UStaticMeshComponent* EnemyMesh;
 
 	/*UPROPERTY(EditAnywhere, Category = "EXP | Item")
 		UStaticMesh* EXP_ItemMesh;*/
