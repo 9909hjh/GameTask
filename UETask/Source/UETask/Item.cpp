@@ -12,8 +12,14 @@ UItem::UItem()
 
 void UItem::Use(AUETaskCharacter* Character)
 {
-	if (Character)
+	if (Character && Wearing)
 	{
 		Character->DEF += RiseDEF;
+		Wearing = false;
+	}
+	else if (Character && !Wearing)
+	{
+		Character->DEF -= RiseDEF;
+		Wearing = true;
 	}
 }

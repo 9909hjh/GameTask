@@ -53,4 +53,7 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)  //BP에서만 정의가능
 		void OnUse(class AUETaskCharacter* Character);
+
+private:
+	bool Wearing = true;
 };
